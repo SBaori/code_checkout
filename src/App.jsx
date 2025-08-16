@@ -5,20 +5,21 @@ import {
     Box,
     Button,
     FormControl,
-    FormControlLabel,
     InputLabel,
     MenuItem,
     Select,
     Stack,
-    Switch,
     Typography,
 } from "@mui/material";
 import "./App.css";
 import { vertSplitModel2 } from "./layouts/vertSplitModel2";
+import { horizontalSplitModel } from "./layouts/horizontalSplitModel";
 import { Layout } from "flexlayout-react";
 import { AppContext } from "./context/AppContext";
 import "flexlayout-react/style/light.css";
 import InputEditor from "./components/InputEditor";
+import ConfigModal from "./components/ConfigModal";
+import Header from "./components/Header";
 
 const LayoutMemo = memo(function LayoutMemo(props) {
     return <Layout {...props} />;
@@ -146,7 +147,7 @@ function Advice() {
         },
         [lang, socket],
     );
-
+    console.log(interactive, termResetOnRun);
     useEffect(() => {
         initialize();
     }, []);
@@ -161,121 +162,100 @@ function Advice() {
     }
 
     return (
-        <Stack direction={"column"} height={"100vh"} width={"100vw"}>
-            <Stack
-                direction={"row"}
-                width={"100%"}
-                p={1}
-                alignItems={"center"}
-                spacing={2}
-                bgcolor={"#dedede"}
-                position={"relative"}
-            >
-                <Typography
-                    fontFamily={"Fira Mono"}
-                    fontSize={25}
-                    color={"#003c52"}
-                    fontWeight={500}
-                >
-                    code_checkout
-                </Typography>
-
-                <FormControl
-                    size="small"
-                    sx={{ width: "12%" }}
-                    disabled={isProgRunning}
-                >
-                    <InputLabel id="language-selected">language</InputLabel>
-                    <Select
-                        labelId="language-selected"
-                        id="demo-simple-select"
-                        value={lang}
-                        label="language"
-                        onChange={handleLangChange}
+        <Stack direction={"column"} height={"100dvh"} width={"100vw"}>
+            <Header
+                brand={
+                    <Typography
+                        fontFamily={"Fira Mono"}
+                        color={"#003c52"}
+                        fontWeight={500}
+                        sx={{
+                            fontSize: "clamp(1rem, 1.5vw, 2rem)",
+                        }}
                     >
-                        {Object.entries(langs)
-                            .sort()
-                            .map(([l, [runner, version]]) => {
-                                return (
-                                    <MenuItem value={l} key={l}>
-                                        {l} ({runner} {version})
-                                    </MenuItem>
-                                );
-                            })}
-                    </Select>
-                </FormControl>
-
-                <FormControl
-                    size="small"
-                    disabled={isProgRunning}
-                    sx={{ display: "flex", flexDirection: "row" }}
-                >
-                    <FormControlLabel
-                        control={
-                            <Switch
-                                defaultChecked
-                                onChange={() =>
-                                    setInteractive(
-                                        (interactive) => !interactive,
-                                    )
-                                }
-                            />
+                        code_checkout
+                    </Typography>
+                }
+                item1={
+                    <FormControl
+                        size="small"
+                        fullWidth
+                        disabled={isProgRunning}
+                    >
+                        <InputLabel id="language-selected">language</InputLabel>
+                        <Select
+                            labelId="language-selected"
+                            id="demo-simple-select"
+                            value={lang}
+                            label="language"
+                            onChange={handleLangChange}
+                        >
+                            {Object.entries(langs)
+                                .sort()
+                                .map(([l, [runner, version]]) => {
+                                    return (
+                                        <MenuItem value={l} key={l}>
+                                            {l} ({runner} {version})
+                                        </MenuItem>
+                                    );
+                                })}
+                        </Select>
+                    </FormControl>
+                }
+                item2={
+                    <Button
+                        size={"small"}
+                        variant="contained"
+                        sx={{
+                            fontSize: "clamp(0.6rem, 1.5vw, 0.8rem)",
+                        }}
+                        onClick={
+                            socket === null
+                                ? initialize
+                                : isProgRunning
+                                  ? handleKill
+                                  : handleRun
                         }
-                        label="Interactive"
-                    />
-                </FormControl>
-
-                <FormControl size="small" disabled={isProgRunning}>
-                    <FormControlLabel
-                        control={
-                            <Switch
-                                defaultChecked
-                                onChange={() =>
-                                    setTermResetOnRun(
-                                        (termResetOnRun) => !termResetOnRun,
-                                    )
-                                }
-                            />
+                        color={
+                            socket === null
+                                ? "error"
+                                : isProgRunning
+                                  ? "error"
+                                  : "info"
                         }
-                        label="Autoclear"
+                        disabled={killSent}
+                    >
+                        {socket === null
+                            ? "Connect"
+                            : isProgRunning
+                              ? "Kill"
+                              : "Run"}
+                    </Button>
+                }
+                item3={
+                    <Button
+                        size={"small"}
+                        variant="outlined"
+                        onClick={(e) => termRef.current.reset()}
+                        color="inherit"
+                        sx={{
+                            fontSize: "clamp(0.6rem, 1.5vw, 0.8rem)",
+                        }}
+                    >
+                        Clear
+                    </Button>
+                }
+                item4={
+                    <ConfigModal
+                        isProgRunning={false}
+                        termResetOnRunState={[
+                            termResetOnRun,
+                            setTermResetOnRun,
+                        ]}
+                        interactiveState={[interactive, setInteractive]}
                     />
-                </FormControl>
-
-                <Button
-                    size={"small"}
-                    variant="contained"
-                    onClick={
-                        socket === null
-                            ? initialize
-                            : isProgRunning
-                              ? handleKill
-                              : handleRun
-                    }
-                    color={
-                        socket === null
-                            ? "error"
-                            : isProgRunning
-                              ? "error"
-                              : "info"
-                    }
-                    disabled={killSent}
-                >
-                    {socket === null
-                        ? "Connect"
-                        : isProgRunning
-                          ? "Kill"
-                          : "Run"}
-                </Button>
-
-                <Button
-                    size={"small"}
-                    variant="outlined"
-                    onClick={(e) => termRef.current.reset()}
-                    color="inherit"
-                >
-                    Clear
-                </Button>
-            </Stack>
+                }
+            />
             <Box height={"100%"} position={"relative"}>
                 <AppContext.Provider
                     value={{
@@ -286,7 +266,11 @@ function Advice() {
                     }}
                 >
                     <LayoutMemo
-                        model={vertSplitModel2}
+                        model={
+                            window.innerWidth > 1050
+                                ? vertSplitModel2
+                                : horizontalSplitModel
+                        }
                         factory={nodeFactory}
                         onModelChange={(model, action) => {
                             fitAddonRef.current.fit();

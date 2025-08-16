@@ -19,7 +19,7 @@ function Output({
     useEffect(() => {
         const term = new Terminal({
             cursorBlink: true,
-            fontSize: 16,
+            fontSize: Math.max((0.8 / 100) * window.innerWidth, 15),
             theme: { background: "#333333" },
         });
         const fitAddon = new FitAddon();
@@ -124,8 +124,8 @@ function Output({
             height={height}
             width={width}
             bgcolor={"#333333"}
-            pl={"1%"}
-            pt={"1%"}
+            pl={{ xs: "3%", md: "1%" }}
+            pt={{ xs: "3%", md: "1%" }}
         >
             <Box id="terminal" height={"100%"} overflow={"hidden"} />
         </Box>
