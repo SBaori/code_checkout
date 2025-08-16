@@ -147,7 +147,6 @@ function Advice() {
         },
         [lang, socket],
     );
-    console.log(interactive, termResetOnRun);
     useEffect(() => {
         initialize();
     }, []);
