@@ -46,7 +46,7 @@ function Output({
         let disposable = null;
 
         if (socket === null && termRef.current !== null) {
-            termRef.current.write("Connection to Server failed!\r\n");
+            termRef.current.write("\r\n");
         } else if (termRef.current !== null) {
             socket.onmessage = (event) => {
                 const output = JSON.parse(event.data);
