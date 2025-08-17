@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-function ConfigModal({ isProgRunning, interactiveState, termResetOnRunState }) {
+function ConfigMenu({ isProgRunning, interactiveState, termResetOnRunState }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [interactive, setInteractive] = interactiveState;
     const [termResetOnRun, setTermResetOnRun] = termResetOnRunState;
@@ -77,4 +77,4 @@ function ConfigModal({ isProgRunning, interactiveState, termResetOnRunState }) {
     );
 }
 
-export default ConfigModal;
+export default ConfigMenu;

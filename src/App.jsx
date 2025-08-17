@@ -18,7 +18,7 @@ import { Layout } from "flexlayout-react";
 import { AppContext } from "./context/AppContext";
 import "flexlayout-react/style/light.css";
 import InputEditor from "./components/InputEditor";
-import ConfigModal from "./components/ConfigModal";
+import ConfigMenu from "./components/ConfigMenu";
 import Header from "./components/Header";
 
 const LayoutMemo = memo(function LayoutMemo(props) {
@@ -245,7 +245,7 @@ function Advice() {
                     </Button>
                 }
                 item4={
-                    <ConfigModal
+                    <ConfigMenu
                         isProgRunning={false}
                         termResetOnRunState={[
                             termResetOnRun,
