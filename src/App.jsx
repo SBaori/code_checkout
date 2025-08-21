@@ -270,7 +270,7 @@ function Advice() {
                             color="inherit"
                             sx={{
                                 fontSize: "clamp(0.6rem, 1.5vw, 0.8rem)",
-                                color: theme ? "white" : "unset",
+                                color: theme ? "white" : "none",
                             }}
                         >
                             Clear
