@@ -214,10 +214,9 @@ function Advice() {
                                                 ? "white"
                                                 : "none", // hover color
                                         },
-                                    " .css-hfutr2-MuiSvgIcon-root-MuiSelect-icon, .css-bpeome-MuiSvgIcon-root-MuiSelect-icon":
-                                        {
-                                            color: theme ? "#ababab" : "none",
-                                        },
+                                    " .MuiSelect-icon": {
+                                        color: theme ? "#ababab" : "none",
+                                    },
                                     color: theme ? "white" : "none",
                                 }}
                             >
