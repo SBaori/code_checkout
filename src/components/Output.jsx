@@ -20,7 +20,7 @@ function Output({
         const term = new Terminal({
             cursorBlink: true,
             fontSize: Math.max((0.8 / 100) * window.innerWidth, 15),
-            theme: { background: "#333333" },
+            theme: { background: "#1f1f1f" },
         });
         const fitAddon = new FitAddon();
         term.loadAddon(fitAddon);
@@ -45,9 +45,7 @@ function Output({
     useEffect(() => {
         let disposable = null;
 
-        if (socket === null && termRef.current !== null) {
-            termRef.current.write("\r\n");
-        } else if (termRef.current !== null) {
+        if (socket !== null && termRef.current !== null) {
             socket.onmessage = (event) => {
                 const output = JSON.parse(event.data);
 
@@ -123,7 +121,7 @@ function Output({
         <Box
             height={height}
             width={width}
-            bgcolor={"#333333"}
+            bgcolor={"#1f1f1f"}
             pl={{ xs: "3%", md: "1%" }}
             pt={{ xs: "3%", md: "1%" }}
         >

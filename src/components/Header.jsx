@@ -1,12 +1,16 @@
 import { Divider, Grid } from "@mui/material";
+import { useContext } from "react";
+import { AppContext } from "../context/AppContext";
 
 function Header({ brand, item1, item2, item3, item4 }) {
+    const { theme } = useContext(AppContext);
+
     return (
         <Grid
             container
             spacing={{ xs: 1, sm: 2 }}
             alignItems={"center"}
-            bgcolor={"#dedede"}
+            bgcolor={theme ? "#363636" : "#dedede"}
             p={1}
         >
             <Grid item xs={12} sm={"auto"}>

@@ -1,26 +1,26 @@
 import { Editor } from "@monaco-editor/react";
-import '../resources/monaco_cdn_to_local'
-import { Stack,} from "@mui/material";
+import "../resources/monaco_cdn_to_local";
+import { Stack } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../context/AppContext";
 import getLangTemplate from "../resources/LangTemplates";
 
-function CodeEditor({codeRef, width="100%",height="100%"}) {
-    const {lang} = useContext(AppContext);
-    const [code, setCode] = useState('');
+function CodeEditor({ codeRef, width = "100%", height = "100%" }) {
+    const { lang } = useContext(AppContext);
+    const [code, setCode] = useState("");
     const [init, setInit] = useState(true);
-    
+    const { theme } = useContext(AppContext);
+
     function updateCode(code) {
-        if(init) {
+        if (init) {
             setCode(codeRef.current);
             setInit(false);
-        }
-        else {
+        } else {
             setCode(code);
             codeRef.current = code;
         }
     }
-    
+
     useEffect(() => {
         updateCode(getLangTemplate(lang));
     }, [lang]);
@@ -31,9 +31,10 @@ function CodeEditor({codeRef, width="100%",height="100%"}) {
                 language={lang}
                 onChange={(code, event) => updateCode(code)}
                 value={code}
+                theme={theme ? "vs-dark" : "light"}
             />
         </Stack>
-    )
+    );
 }
 
 export default CodeEditor;

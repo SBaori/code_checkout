@@ -34,6 +34,7 @@ function Advice() {
     const [termReset, setTermReset] = useState(false);
     const [termResetOnRun, setTermResetOnRun] = useState(true);
     const [interactive, setInteractive] = useState(true);
+    const [theme, setTheme] = useState(false);
 
     const codeRef = useRef("");
     const inputRef = useRef("");
@@ -161,109 +162,134 @@ function Advice() {
     }
 
     return (
-        <Stack direction={"column"} height={"100dvh"} width={"100vw"}>
-            <Header
-                brand={
-                    <Typography
-                        fontFamily={"Fira Mono"}
-                        color={"#003c52"}
-                        fontWeight={500}
-                        sx={{
-                            fontSize: "clamp(1rem, 1.5vw, 2rem)",
-                        }}
-                    >
-                        code_checkout
-                    </Typography>
-                }
-                item1={
-                    <FormControl
-                        size="small"
-                        fullWidth
-                        disabled={isProgRunning}
-                    >
-                        <InputLabel id="language-selected">language</InputLabel>
-                        <Select
-                            labelId="language-selected"
-                            id="demo-simple-select"
-                            value={lang}
-                            label="language"
-                            onChange={handleLangChange}
+        <AppContext.Provider
+            value={{
+                lang: lang,
+                socket: socket,
+                theme: theme,
+                interactive: interactive,
+            }}
+        >
+            <Stack direction={"column"} height={"100dvh"} width={"100vw"}>
+                <Header
+                    brand={
+                        <Typography
+                            fontFamily={"Fira Mono"}
+                            color={theme ? "white" : "black"}
+                            fontWeight={500}
+                            sx={{
+                                fontSize: "clamp(1rem, 1.5vw, 2rem)",
+                            }}
                         >
-                            {Object.entries(langs)
-                                .sort()
-                                .map(([l, [runner, version]]) => {
-                                    return (
-                                        <MenuItem value={l} key={l}>
-                                            {l} ({runner} {version})
-                                        </MenuItem>
-                                    );
-                                })}
-                        </Select>
-                    </FormControl>
-                }
-                item2={
-                    <Button
-                        size={"small"}
-                        variant="contained"
-                        sx={{
-                            fontSize: "clamp(0.6rem, 1.5vw, 0.8rem)",
-                        }}
-                        onClick={
-                            socket === null
-                                ? initialize
+                            code_checkout
+                        </Typography>
+                    }
+                    item1={
+                        <FormControl
+                            size="small"
+                            fullWidth
+                            disabled={isProgRunning}
+                        >
+                            <InputLabel
+                                id="language-selected"
+                                sx={{
+                                    color: theme ? "#ababab" : "none",
+                                }}
+                            >
+                                language
+                            </InputLabel>
+                            <Select
+                                labelId="language-selected"
+                                id="demo-simple-select"
+                                value={lang}
+                                label="language"
+                                onChange={handleLangChange}
+                                sx={{
+                                    "& .MuiOutlinedInput-notchedOutline": {
+                                        borderColor: theme ? "#ababab" : "none", // default border color
+                                    },
+                                    "&:hover .MuiOutlinedInput-notchedOutline":
+                                        {
+                                            borderColor: theme
+                                                ? "white"
+                                                : "none", // hover color
+                                        },
+                                    " .css-hfutr2-MuiSvgIcon-root-MuiSelect-icon, .css-bpeome-MuiSvgIcon-root-MuiSelect-icon":
+                                        {
+                                            color: theme ? "#ababab" : "none",
+                                        },
+                                    color: theme ? "white" : "none",
+                                }}
+                            >
+                                {Object.entries(langs)
+                                    .sort()
+                                    .map(([l, [runner, version]]) => {
+                                        return (
+                                            <MenuItem value={l} key={l}>
+                                                {l} ({runner} {version})
+                                            </MenuItem>
+                                        );
+                                    })}
+                            </Select>
+                        </FormControl>
+                    }
+                    item2={
+                        <Button
+                            size={"small"}
+                            variant="contained"
+                            sx={{
+                                fontSize: "clamp(0.6rem, 1.5vw, 0.8rem)",
+                            }}
+                            onClick={
+                                socket === null
+                                    ? initialize
+                                    : isProgRunning
+                                      ? handleKill
+                                      : handleRun
+                            }
+                            color={
+                                socket === null
+                                    ? "error"
+                                    : isProgRunning
+                                      ? "error"
+                                      : "info"
+                            }
+                            disabled={killSent}
+                        >
+                            {socket === null
+                                ? "Connect"
                                 : isProgRunning
-                                  ? handleKill
-                                  : handleRun
-                        }
-                        color={
-                            socket === null
-                                ? "error"
-                                : isProgRunning
-                                  ? "error"
-                                  : "info"
-                        }
-                        disabled={killSent}
-                    >
-                        {socket === null
-                            ? "Connect"
-                            : isProgRunning
-                              ? "Kill"
-                              : "Run"}
-                    </Button>
-                }
-                item3={
-                    <Button
-                        size={"small"}
-                        variant="outlined"
-                        onClick={(e) => termRef.current.reset()}
-                        color="inherit"
-                        sx={{
-                            fontSize: "clamp(0.6rem, 1.5vw, 0.8rem)",
-                        }}
-                    >
-                        Clear
-                    </Button>
-                }
-                item4={
-                    <ConfigMenu
-                        isProgRunning={false}
-                        termResetOnRunState={[
-                            termResetOnRun,
-                            setTermResetOnRun,
-                        ]}
-                        interactiveState={[interactive, setInteractive]}
-                    />
-                }
-            />
-            <Box height={"100%"} position={"relative"}>
-                <AppContext.Provider
-                    value={{
-                        lang: lang,
-                        socket: socket,
-                        theme: "",
-                        interactive: interactive,
-                    }}
-                >
+                                  ? "Kill"
+                                  : "Run"}
+                        </Button>
+                    }
+                    item3={
+                        <Button
+                            size={"small"}
+                            variant="outlined"
+                            onClick={(e) => termRef.current.reset()}
+                            color="inherit"
+                            sx={{
+                                fontSize: "clamp(0.6rem, 1.5vw, 0.8rem)",
+                                color: theme ? "white" : "unset",
+                            }}
+                        >
+                            Clear
+                        </Button>
+                    }
+                    item4={
+                        <ConfigMenu
+                            isProgRunning={false}
+                            termResetOnRunState={[
+                                termResetOnRun,
+                                setTermResetOnRun,
+                            ]}
+                            interactiveState={[interactive, setInteractive]}
+                            themeState={[theme, setTheme]}
+                        />
+                    }
+                />
+                <Box height={"100%"} position={"relative"}>
                     <LayoutMemo
                         model={
                             window.innerWidth > 1050
@@ -275,9 +301,9 @@ function Advice() {
                             fitAddonRef.current.fit();
                         }}
                     />
-                </AppContext.Provider>
-            </Box>
-        </Stack>
+                </Box>
+            </Stack>
+        </AppContext.Provider>
     );
 }
 
