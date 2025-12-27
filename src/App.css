@@ -2,3 +2,14 @@
     box-sizing: border-box;
     margin: 0;
 }
+
+.flexlayout__tabset_tabbar_outer_top {
+  background-color: #363636 !important;
+  font-family: 'Fira Code';
+  border: 0 !important;
+}
+
+.flexlayout__tab_button {
+  background-color: #363636 !important;
+  color: whitesmoke !important;
+}

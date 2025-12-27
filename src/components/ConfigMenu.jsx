@@ -84,7 +84,7 @@ function ConfigMenu({
                     </FormControl>
                 </MenuItem>
                 <MenuItem>
-                    <FormControl size="small" disabled={isProgRunning}>
+                    <FormControl size="small" disabled={true}>
                         <FormControlLabel
                             // sx={{ display: "flex", alignItems: "center" }}
                             control={

@@ -34,7 +34,7 @@ function Advice() {
     const [termReset, setTermReset] = useState(false);
     const [termResetOnRun, setTermResetOnRun] = useState(true);
     const [interactive, setInteractive] = useState(true);
-    const [theme, setTheme] = useState(false);
+    const [theme, setTheme] = useState(true);
 
     const codeRef = useRef("");
     const inputRef = useRef("");
