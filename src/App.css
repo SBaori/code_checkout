@@ -9,8 +9,12 @@
   border: 0 !important;
 }
 
-.flexlayout__tab_button {
+.flexlayout__tab_button--selected {
   background-color: #363636 !important;
+  color: #bfbfbf !important;
+}
+
+.flexlayout__tab_button--unselected:hover {
   color: whitesmoke !important;
 }
 
