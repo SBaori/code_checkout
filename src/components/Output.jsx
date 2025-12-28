@@ -20,7 +20,7 @@ function Output({
         const term = new Terminal({
             cursorBlink: true,
             fontSize: Math.max((0.8 / 100) * window.innerWidth, 15),
-            theme: { background: "#1f1f1f" },
+            theme: { background: "#171717" },
         });
         const fitAddon = new FitAddon();
         term.loadAddon(fitAddon);
@@ -121,7 +121,7 @@ function Output({
         <Box
             height={height}
             width={width}
-            bgcolor={"#1f1f1f"}
+            bgcolor={"#171717"}
             pl={{ xs: "3%", md: "1%" }}
             pt={{ xs: "3%", md: "1%" }}
         >
