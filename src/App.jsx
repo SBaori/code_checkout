@@ -174,7 +174,7 @@ function Advice() {
                 <Header
                     brand={
                         <Typography
-                            fontFamily={"Fira Mono"}
+                            fontFamily={"Fira Code, Fira Mono, monospace"}
                             color={theme ? "white" : "black"}
                             fontWeight={500}
                             sx={{

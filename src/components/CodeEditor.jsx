@@ -32,6 +32,9 @@ function CodeEditor({ codeRef, width = "100%", height = "100%" }) {
                 onChange={(code, event) => updateCode(code)}
                 value={code}
                 theme={theme ? "vs-dark" : "light"}
+                options={{
+                    fontFamily: "Fira Code, Fira Mono, monospace"
+                }}
             />
         </Stack>
     );
