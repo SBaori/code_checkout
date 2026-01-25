@@ -10,9 +10,8 @@ function Header({ brand, item1, item2, item3, item4 }) {
             container
             spacing={{ xs: 1, sm: 2 }}
             alignItems={"center"}
-            bgcolor={theme ? "#363636" : "#dedede"}
+            bgcolor={theme ? "#272727" : "#dedede"}
             p={1}
-            borderBottom={"1px solid #828282"}
         >
             <Grid item xs={12} sm={"auto"}>
                 {brand}
