@@ -5,7 +5,7 @@
 
 .flexlayout__tabset_tabbar_outer_top {
   background-color: #363636 !important;
-  font-family: 'Fira Code';
+  font-family: 'Fira Code', 'monospace';
   border: 0 !important;
 }
 
