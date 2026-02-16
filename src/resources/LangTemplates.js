@@ -5,6 +5,7 @@ export default function getLangTemplate(lang) {
         case "c":
             return (
 `#include <stdio.h>
+
 int main() {
     printf("Hello World\\n");
     return 0;
@@ -29,6 +30,11 @@ int main() {
             return (
 `main :: IO ()
 main = putStrLn "hello world"`
+            );
+        
+        case "javascript":
+            return (
+`console.log("Hello World");`
             );
         
         default:
