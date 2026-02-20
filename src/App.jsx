@@ -253,6 +253,7 @@ function App() {
                             ref={actionButtonRef}
                             sx={{
                                 fontSize: "clamp(0.6rem, 1.5vw, 0.8rem)",
+                                textTransform: 'none'
                             }}
                             onClick={
                                 socket === null
@@ -266,16 +267,19 @@ function App() {
                                     ? "error"
                                     : isProgRunning
                                       ? "error"
-                                      : "info"
+                                      : "success"
                             }
                             disabled={killSent}
                         >
-                            {socket === null
-                                ? "Connect"
+                            {(socket === null
+                                ? "CONNECT"
                                 : isProgRunning
-                                  ? "Kill"
-                                  : "Run"
+                                  ? "KILL"
+                                  : "RUN"
+                            )
+                                + " (Ctrl + Enter)"
                             }
+                            
                         </Button>
                     }
                     item3={
