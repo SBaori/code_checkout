@@ -25,7 +25,7 @@ const LayoutMemo = memo(function LayoutMemo(props) {
     return <Layout {...props} />;
 });
 
-function Advice() {
+function App() {
     const [lang, setLang] = useState("");
     const [langs, setLangs] = useState({});
     const [socket, setSocket] = useState(null);
@@ -35,6 +35,7 @@ function Advice() {
     const [termResetOnRun, setTermResetOnRun] = useState(true);
     const [interactive, setInteractive] = useState(true);
     const [theme, setTheme] = useState(true);
+    const actionButtonRef = useRef(null);
 
     const codeRef = useRef("");
     const inputRef = useRef("");
@@ -150,6 +151,19 @@ function Advice() {
     );
     useEffect(() => {
         initialize();
+
+        function handleActionKey(e) {
+            if(e.ctrlKey && e.key === 'Enter') {
+                actionButtonRef.current?.click();
+                e.stopPropagation(); 
+            }
+        }
+
+        window.addEventListener('keydown', handleActionKey, true);
+
+        return () => {
+            window.removeEventListener('keydown', handleActionKey, true);
+        }
     }, []);
 
     if (!isProgRunning && killSent) {
@@ -236,6 +250,7 @@ function Advice() {
                         <Button
                             size={"small"}
                             variant="contained"
+                            ref={actionButtonRef}
                             sx={{
                                 fontSize: "clamp(0.6rem, 1.5vw, 0.8rem)",
                             }}
@@ -259,7 +274,8 @@ function Advice() {
                                 ? "Connect"
                                 : isProgRunning
                                   ? "Kill"
-                                  : "Run"}
+                                  : "Run"
+                            }
                         </Button>
                     }
                     item3={
@@ -306,4 +322,4 @@ function Advice() {
     );
 }
 
-export default Advice;
+export default App;
