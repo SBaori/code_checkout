@@ -78,8 +78,6 @@ function Output({
                 if (!interactive) return;
 
                 for (const char of data) {
-                    console.log(char === "\r");
-
                     if (char === "\r") {
                         // User pressed Enter
                         // const toSend = inputBufferRef.current + '\n'; // Add newline
