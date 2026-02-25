@@ -9,6 +9,7 @@ import {
     MenuItem,
     Select,
     Stack,
+    Tooltip,
     Typography,
 } from "@mui/material";
 import "./App.css";
@@ -247,40 +248,40 @@ function App() {
                         </FormControl>
                     }
                     item2={
-                        <Button
-                            size={"small"}
-                            variant="contained"
-                            ref={actionButtonRef}
-                            sx={{
-                                fontSize: "clamp(0.6rem, 1.5vw, 0.8rem)",
-                                textTransform: 'none'
-                            }}
-                            onClick={
-                                socket === null
-                                    ? initialize
+                        <Tooltip title="Ctrl + Enter" enterDelay={200}>
+                            <Button
+                                size={"small"}
+                                variant="contained"
+                                ref={actionButtonRef}
+                                sx={{
+                                    fontSize: "clamp(0.6rem, 1.5vw, 0.8rem)",
+                                    textTransform: 'none'
+                                }}
+                                onClick={
+                                    socket === null
+                                        ? initialize
+                                        : isProgRunning
+                                          ? handleKill
+                                          : handleRun
+                                }
+                                color={
+                                    socket === null
+                                        ? "error"
+                                        : isProgRunning
+                                          ? "error"
+                                          : "success"
+                                }
+                                disabled={killSent}
+                            >
+                                {socket === null
+                                    ? "CONNECT"
                                     : isProgRunning
-                                      ? handleKill
-                                      : handleRun
-                            }
-                            color={
-                                socket === null
-                                    ? "error"
-                                    : isProgRunning
-                                      ? "error"
-                                      : "success"
-                            }
-                            disabled={killSent}
-                        >
-                            {(socket === null
-                                ? "CONNECT"
-                                : isProgRunning
-                                  ? "KILL"
-                                  : "RUN"
-                            )
-                                + " (Ctrl + Enter)"
-                            }
-                            
-                        </Button>
+                                      ? "KILL"
+                                      : "RUN"
+                                }
+
+                            </Button>
+                        </Tooltip>
                     }
                     item3={
                         <Button
