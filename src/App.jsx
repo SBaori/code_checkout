@@ -36,6 +36,7 @@ function App() {
     const [termResetOnRun, setTermResetOnRun] = useState(true);
     const [interactive, setInteractive] = useState(true);
     const [theme, setTheme] = useState(true);
+    const [connReqSent, setConnReqSent] = useState(false);
     const actionButtonRef = useRef(null);
 
     const codeRef = useRef("");
@@ -53,17 +54,22 @@ function App() {
         socket.onopen = () => {
             setSocket(socket);
             setTermReset(true);
+            setConnReqSent(false);
         };
 
         socket.onclose = () => {
             setSocket(null);
             setIsProgRunning(false);
+            setConnReqSent(false);
         };
 
         socket.onerror = () => {
             setSocket(null);
             setIsProgRunning(false);
+            setConnReqSent(false);
         };
+
+        setConnReqSent(true);
     }
 
     async function fetchLangs() {
@@ -271,7 +277,7 @@ function App() {
                                           ? "error"
                                           : "success"
                                 }
-                                disabled={killSent}
+                                disabled={killSent || connReqSent}
                             >
                                 {socket === null
                                     ? "CONNECT"
