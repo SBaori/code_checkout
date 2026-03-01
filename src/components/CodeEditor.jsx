@@ -1,11 +1,14 @@
 import { Editor } from "@monaco-editor/react";
 import "../resources/monaco_cdn_to_local";
-import { Stack } from "@mui/material";
+import { Stack, useMediaQuery, useTheme } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../context/AppContext";
 import getLangTemplate from "../resources/LangTemplates";
 
 function CodeEditor({ codeRef, width = "100%", height = "100%" }) {
+    const muiTheme = useTheme();
+    const isMobile = useMediaQuery(muiTheme.breakpoints.down("sm"));
+
     const { lang } = useContext(AppContext);
     const [code, setCode] = useState("");
     const [init, setInit] = useState(true);
@@ -33,7 +36,10 @@ function CodeEditor({ codeRef, width = "100%", height = "100%" }) {
                 value={code}
                 theme={theme ? "vs-dark" : "light"}
                 options={{
-                    fontFamily: "Fira Code, Fira Mono, monospace"
+                    fontFamily: "Fira Code, Fira Mono, monospace",
+                    contextmenu: !isMobile,
+                    minimap: { enabled: !isMobile },
+                    hover: { enabled: !isMobile },
                 }}
             />
         </Stack>
