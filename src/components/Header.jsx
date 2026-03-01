@@ -18,7 +18,7 @@ function Header({ brand, item1, item2, item3, item4 }) {
             </Grid>
 
             <Grid item xs={12} sm={"auto"}>
-                <Divider />
+                <Divider sx={{borderColor: "#636363"}}/>
             </Grid>
 
             <Grid item xs={5} sm={3} lg={2}>
