@@ -1,20 +1,27 @@
-import { useRef, useEffect, useContext } from "react";
+import { useRef, useEffect, useContext, useState } from "react";
 import { Terminal } from "@xterm/xterm";
 import { FitAddon } from "@xterm/addon-fit";
-import { Box } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import "@xterm/xterm/css/xterm.css";
 import { AppContext } from "../context/AppContext";
 
 function Output({
-    setIsProgRunning,
+    progRunningState,
     termRefProp,
     fitAddonRefProp,
     width = "100%",
     height = "100%",
 }) {
+    const [isProgRunning, setIsProgRunning] = progRunningState;
     const { lang, socket, interactive } = useContext(AppContext);
+    
     const termRef = useRef(null);
     const inputBufferRef = useRef("");
+    const exitCodeRef = useRef("?");
+
+    if(isProgRunning) {
+        exitCodeRef.current = "?";
+    }
 
     useEffect(() => {
         const term = new Terminal({
@@ -56,9 +63,10 @@ function Output({
                     // }
                     // else {
                     if (Number.isInteger(Number(output.str))) {
-                        termRef.current.write("\r\nExit Code: " + output.str);
+                        exitCodeRef.current = output.str;
                     } else {
                         termRef.current.write("\r\n" + output.str);
+                        exitCodeRef.current = "?"
                     }
                     termRef.current.write(
                         "\r\n" +
@@ -116,15 +124,38 @@ function Output({
     }, [socket, lang, interactive]);
 
     return (
-        <Box
-            height={height}
-            width={width}
-            bgcolor={"#171717"}
-            pl={{ xs: "3%", md: "1%" }}
-            pt={{ xs: "3%", md: "1%" }}
-        >
-            <Box id="terminal" height={"100%"} overflow={"hidden"} />
-        </Box>
+        <Stack height={height} width={width}>
+            <Box 
+                pl={"2%"}
+                py={"0.5%"}
+                bgcolor={"#262626"} 
+                color={"white"}
+                fontFamily={"Fira Code, Fira Mono, monospace"}
+                fontSize={12}
+            >
+                Exit Code - <Typography 
+                                variant={"inherit"} 
+                                component={"span"}
+                                color={exitCodeRef.current === "?" ? 
+                                            "inherit" 
+                                        : exitCodeRef.current === "0" ? 
+                                            "#4fff69" 
+                                            : "#ff3636"
+                                }
+                            >
+                                {exitCodeRef.current}
+                            </Typography>
+            </Box>
+            <Box
+                height={"100%"}
+                overflow={"hidden"}
+                bgcolor={"#171717"}
+                pl={{ xs: "3%", md: "1%" }}
+                pt={{ xs: "3%", md: "1%" }}
+            >
+                <Box id="terminal" height={"100%"} />
+            </Box>
+        </Stack>
     );
 }
 

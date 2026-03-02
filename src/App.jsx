@@ -143,7 +143,7 @@ function App() {
             if (component === "Output") {
                 return (
                     <Output
-                        setIsProgRunning={setIsProgRunning}
+                        progRunningState={[isProgRunning, setIsProgRunning]}
                         termRefProp={termRef}
                         fitAddonRefProp={fitAddonRef}
                     />
@@ -154,7 +154,7 @@ function App() {
                 return <InputEditor inputRef={inputRef} />;
             }
         },
-        [lang, socket],
+        [lang, socket, isProgRunning],
     );
     useEffect(() => {
         initialize();
