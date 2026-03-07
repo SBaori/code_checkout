@@ -61,13 +61,18 @@ function Output({
                 const output = JSON.parse(event.data);
 
                 if (output.terminated) {
-                    if(output.peakMemory?.length > 0)
-                        peakMemory.current = output.peakMemory;
 
-                    exitCodeRef.current = output.exitCode.toString();
-
-                    if(output.totalCPUTime?.length > 0)
-                        totalCPUTime.current = output.totalCPUTime;
+                    let runStats = output.runStats;
+                    
+                    if(runStats !== null) {
+                        if(runStats.peakMemory?.length > 0)
+                            peakMemory.current = runStats.peakMemory;
+                        
+                        exitCodeRef.current = runStats.exitCode.toString();
+    
+                        if(runStats.totalCPUTime?.length > 0)
+                            totalCPUTime.current = runStats.totalCPUTime;
+                    }
 
                     termRef.current.write("\r\n" + output.str);
                     termRef.current.write(
@@ -132,7 +137,7 @@ function Output({
                 bgcolor={"#262626"} 
                 color={"white"}
                 fontFamily={"Fira Code, Fira Mono, monospace"}
-                fontSize={{xs: 11, sm: 12}}
+                fontSize={{xs: 10, sm: 11, md: 12}}
                 divider={<Divider orientation="vertical" flexItem sx={{borderColor: "#4f4f4f"}}/>}
                 direction={"row"}
                 spacing={{ xs: 1.5, sm: 2 }}
