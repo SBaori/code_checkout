@@ -1,7 +1,7 @@
 import { useRef, useEffect, useContext, useState } from "react";
 import { Terminal } from "@xterm/xterm";
 import { FitAddon } from "@xterm/addon-fit";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Divider, Stack, Typography } from "@mui/material";
 import "@xterm/xterm/css/xterm.css";
 import { AppContext } from "../context/AppContext";
 
@@ -18,9 +18,14 @@ function Output({
     const termRef = useRef(null);
     const inputBufferRef = useRef("");
     const exitCodeRef = useRef("?");
+    const peakMemory = useRef("?");
+    const totalCPUTime = useRef("?");
+    // const runStatsRef = useRef("?");
 
     if(isProgRunning) {
         exitCodeRef.current = "?";
+        peakMemory.current = "?";
+        totalCPUTime.current = "?";
     }
 
     useEffect(() => {
@@ -57,23 +62,20 @@ function Output({
                 const output = JSON.parse(event.data);
 
                 if (output.terminated) {
-                    // if(lang !== prevLang) {
-                    //     setPrevLang(lang);
-                    //     termRef.current.reset();
-                    // }
-                    // else {
-                    if (Number.isInteger(Number(output.str))) {
-                        exitCodeRef.current = output.str;
-                    } else {
-                        termRef.current.write("\r\n" + output.str);
-                        exitCodeRef.current = "?"
-                    }
+                    if(output.peakMemory?.length > 0)
+                        peakMemory.current = output.peakMemory;
+
+                    exitCodeRef.current = output.exitCode.toString();
+
+                    if(output.totalCPUTime?.length > 0)
+                        totalCPUTime.current = output.totalCPUTime;
+
+                    termRef.current.write("\r\n" + output.str);
                     termRef.current.write(
                         "\r\n" +
                             "=".repeat(termRef.current.cols - 1) +
                             "\r\n\n",
                     );
-                    // }
 
                     setIsProgRunning(false);
                 } else {
@@ -125,27 +127,39 @@ function Output({
 
     return (
         <Stack height={height} width={width}>
-            <Box 
+            <Stack 
                 pl={"2%"}
                 py={"0.5%"}
                 bgcolor={"#262626"} 
                 color={"white"}
                 fontFamily={"Fira Code, Fira Mono, monospace"}
                 fontSize={12}
+                divider={<Divider orientation="vertical" flexItem sx={{borderColor: "#4f4f4f"}}/>}
+                direction={"row"}
+                spacing={2}
             >
-                Exit Code - <Typography 
-                                variant={"inherit"} 
-                                component={"span"}
-                                color={exitCodeRef.current === "?" ? 
-                                            "inherit" 
-                                        : exitCodeRef.current === "0" ? 
-                                            "#4fff69" 
-                                            : "#ff3636"
-                                }
-                            >
-                                {exitCodeRef.current}
-                            </Typography>
-            </Box>
+                <Box>
+                    Exit Code - <Typography 
+                                    variant={"inherit"} 
+                                    component={"span"}
+                                    color={exitCodeRef.current === "?" ? 
+                                                "inherit" 
+                                            : exitCodeRef.current === "0" ? 
+                                                "#4fff69" 
+                                                : "#ff3636"
+                                    }
+                                >
+                                    {exitCodeRef.current}
+                                </Typography>
+                </Box>
+                <Box>
+                    {peakMemory.current}
+                </Box>
+                <Box>
+                    {totalCPUTime.current}
+                </Box>
+                
+            </Stack>
             <Box
                 height={"100%"}
                 overflow={"hidden"}

@@ -11,7 +11,7 @@ int main() {
     return 0;
 }`          );
 
-        case "cpp":
+        case "c++20":
             return (
 `#include <iostream>
 using namespace std;

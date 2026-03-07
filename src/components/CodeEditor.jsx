@@ -31,7 +31,10 @@ function CodeEditor({ codeRef, width = "100%", height = "100%" }) {
     return (
         <Stack width={width} height={height}>
             <Editor
-                language={lang}
+                language={lang === "c++20" ? 
+                            "cpp" 
+                        : lang
+                }
                 onChange={(code, event) => updateCode(code)}
                 value={code}
                 theme={theme ? "vs-dark" : "light"}
