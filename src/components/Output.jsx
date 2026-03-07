@@ -20,7 +20,6 @@ function Output({
     const exitCodeRef = useRef("?");
     const peakMemory = useRef("?");
     const totalCPUTime = useRef("?");
-    // const runStatsRef = useRef("?");
 
     if(isProgRunning || socket === null) {
         exitCodeRef.current = "?";
@@ -133,10 +132,10 @@ function Output({
                 bgcolor={"#262626"} 
                 color={"white"}
                 fontFamily={"Fira Code, Fira Mono, monospace"}
-                fontSize={12}
+                fontSize={{xs: 11, sm: 12}}
                 divider={<Divider orientation="vertical" flexItem sx={{borderColor: "#4f4f4f"}}/>}
                 direction={"row"}
-                spacing={2}
+                spacing={{ xs: 1.5, sm: 2 }}
             >
                 <Box>
                     Exit Code - <Typography 

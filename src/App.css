@@ -9,6 +9,10 @@
   border: 0 !important;
 }
 
+.flexlayout__tab_button {
+  font-size: clamp(0.8rem, 1vw, 2rem);
+}
+
 .flexlayout__tab_button--selected {
   background-color: #363636 !important;
   color: #bfbfbf !important;
