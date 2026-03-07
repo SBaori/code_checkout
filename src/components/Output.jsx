@@ -22,7 +22,7 @@ function Output({
     const totalCPUTime = useRef("?");
     // const runStatsRef = useRef("?");
 
-    if(isProgRunning) {
+    if(isProgRunning || socket === null) {
         exitCodeRef.current = "?";
         peakMemory.current = "?";
         totalCPUTime.current = "?";
