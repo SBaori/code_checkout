@@ -41,7 +41,7 @@ function CodeEditor({ codeRef, width = "100%", height = "100%" }) {
                 options={{
                     fontFamily: "Fira Code, Fira Mono, monospace",
                     contextmenu: !isMobile,
-                    minimap: { enabled: !isMobile },
+                    minimap: { enabled: false },
                     hover: { enabled: !isMobile },
                 }}
             />
