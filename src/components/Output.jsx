@@ -132,8 +132,8 @@ function Output({
     return (
         <Stack height={height} width={width}>
             <Stack 
-                pl={"2%"}
-                py={"0.5%"}
+                pl={2}
+                py={0.5}
                 bgcolor={"#262626"} 
                 color={"white"}
                 fontFamily={"Fira Code, Fira Mono, monospace"}
@@ -143,7 +143,7 @@ function Output({
                 spacing={{ xs: 1.5, sm: 2 }}
             >
                 <Box>
-                    Exit Code - <Typography 
+                    ExitCode - <Typography 
                                     variant={"inherit"} 
                                     component={"span"}
                                     color={exitCodeRef.current === "?" ? 
@@ -157,10 +157,10 @@ function Output({
                                 </Typography>
                 </Box>
                 <Box>
-                    {peakMemory.current}
+                    Mem - {peakMemory.current}
                 </Box>
                 <Box>
-                    {totalCPUTime.current}
+                    Time - {totalCPUTime.current}
                 </Box>
                 
             </Stack>
