@@ -37,8 +37,9 @@ function App() {
     const [interactive, setInteractive] = useState(true);
     const [theme, setTheme] = useState(true);
     const [connReqSent, setConnReqSent] = useState(false);
+    const [runReq, setRunReq] = useState(false);
+    
     const actionButtonRef = useRef(null);
-
     const codeRef = useRef("");
     const inputRef = useRef("");
     const termRef = useRef(null);
@@ -111,7 +112,11 @@ function App() {
     }
 
     function handleRun() {
-        if (socket !== null) {
+        if(socket === null) {
+            setRunReq(true);
+            openSocket();
+        }
+        else {
             let data = {
                 code: codeRef.current,
                 language: lang,
@@ -180,6 +185,11 @@ function App() {
     if (termReset && !isProgRunning) {
         resetTerm();
         setTermReset(false);
+    }
+
+    if(runReq && socket !== null) {
+        handleRun();
+        setRunReq(false);
     }
 
     return (
@@ -263,29 +273,11 @@ function App() {
                                     fontSize: "clamp(0.6rem, 1.5vw, 0.8rem)",
                                     textTransform: 'none'
                                 }}
-                                onClick={
-                                    socket === null
-                                        ? initialize
-                                        : isProgRunning
-                                          ? handleKill
-                                          : handleRun
-                                }
-                                color={
-                                    socket === null
-                                        ? "error"
-                                        : isProgRunning
-                                          ? "error"
-                                          : "success"
-                                }
+                                onClick={isProgRunning ? handleKill : handleRun}
+                                color={isProgRunning ? "error" : "success"}
                                 disabled={killSent || connReqSent}
                             >
-                                {socket === null
-                                    ? "CONNECT"
-                                    : isProgRunning
-                                      ? "KILL"
-                                      : "RUN"
-                                }
-
+                                {isProgRunning ? "KILL" : "RUN"}
                             </Button>
                         </Tooltip>
                     }

@@ -89,7 +89,7 @@ function Output({
             };
 
             disposable = termRef.current.onData((data) => {
-                if (!interactive) return;
+                if (!interactive || !isProgRunning) return;
 
                 for (const char of data) {
                     if (char === "\r") {
