@@ -10,7 +10,7 @@
 }
 
 .flexlayout__tab_button {
-  font-size: clamp(0.8rem, 1vw, 2rem);
+  font-size: clamp(0.8rem, 1vw, 1.5rem);
 }
 
 .flexlayout__tab_button--selected {
