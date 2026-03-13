@@ -21,7 +21,7 @@ function Output({
     const peakMemory = useRef("?");
     const totalCPUTime = useRef("?");
 
-    if(isProgRunning || socket === null) {
+    if(isProgRunning) {
         exitCodeRef.current = "?";
         peakMemory.current = "?";
         totalCPUTime.current = "?";
@@ -127,7 +127,7 @@ function Output({
 
             if (socket !== null) socket.onmessage = undefined;
         };
-    }, [socket, lang, interactive]);
+    }, [socket, lang, interactive, isProgRunning]);
 
     return (
         <Stack height={height} width={width}>
