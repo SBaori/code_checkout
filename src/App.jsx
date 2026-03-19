@@ -37,8 +37,8 @@ function App() {
     const [interactive, setInteractive] = useState(true);
     const [theme, setTheme] = useState(true);
     const [connReqSent, setConnReqSent] = useState(false);
-    const [runReq, setRunReq] = useState(false);
     
+    const runReqRef = useRef(false);
     const actionButtonRef = useRef(null);
     const codeRef = useRef("");
     const inputRef = useRef("");
@@ -113,7 +113,7 @@ function App() {
 
     function handleRun() {
         if(socket === null) {
-            setRunReq(true);
+            runReqRef.current = true;
             openSocket();
         }
         else {
@@ -187,9 +187,10 @@ function App() {
         setTermReset(false);
     }
 
-    if(runReq && socket !== null) {
+    if(runReqRef.current && socket !== null) {
         handleRun();
-        setRunReq(false);
+        // setRunReq(false);
+        runReqRef.current = false;
     }
 
     return (
