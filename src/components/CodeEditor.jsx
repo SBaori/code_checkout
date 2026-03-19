@@ -4,6 +4,11 @@ import { Stack, useMediaQuery, useTheme } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../context/AppContext";
 import getLangTemplate from "../resources/LangTemplates";
+import haskellHighlight from "../resources/syntax-highlighters/haskellHighlight";
+
+function beforeMount(monaco) {
+    haskellHighlight(monaco); 
+}
 
 function CodeEditor({ codeRef, width = "100%", height = "100%" }) {
     const muiTheme = useTheme();
@@ -35,6 +40,7 @@ function CodeEditor({ codeRef, width = "100%", height = "100%" }) {
                             "cpp" 
                         : lang
                 }
+                beforeMount={beforeMount}
                 onChange={(code, event) => updateCode(code)}
                 value={code}
                 theme={theme ? "vs-dark" : "light"}
