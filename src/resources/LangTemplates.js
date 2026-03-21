@@ -37,6 +37,15 @@ main = putStrLn "hello world"`
 `console.log("Hello World");`
             );
         
+        case "java":
+            return (
+`public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}`
+            )
+        
         default:
             return ""
     }
