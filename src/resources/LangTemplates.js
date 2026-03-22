@@ -29,7 +29,7 @@ int main() {
         case "haskell":
             return (
 `main :: IO ()
-main = putStrLn "hello world"`
+main = putStrLn "Hello World"`
             );
         
         case "javascript":
@@ -41,7 +41,7 @@ main = putStrLn "hello world"`
             return (
 `public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello, World!");
+        System.out.println("Hello World!");
     }
 }`
             )
