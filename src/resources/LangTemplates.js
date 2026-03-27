@@ -7,7 +7,7 @@ export default function getLangTemplate(lang) {
 `#include <stdio.h>
 
 int main() {
-    printf("Hello World\\n");
+    printf("Hello World!\\n");
     return 0;
 }`          );
 
@@ -17,24 +17,24 @@ int main() {
 using namespace std;
 
 int main() {
-    cout << "Hello World" << endl;
+    cout << "Hello World!" << endl;
     return 0;
 }`          );
         
         case "python":
             return (
-`print("Hello World")`
+`print("Hello World!")`
             );
         
         case "haskell":
             return (
 `main :: IO ()
-main = putStrLn "Hello World"`
+main = putStrLn "Hello World!"`
             );
         
         case "javascript":
             return (
-`console.log("Hello World");`
+`console.log("Hello World!");`
             );
         
         case "java":
@@ -45,6 +45,18 @@ main = putStrLn "Hello World"`
     }
 }`
             )
+        
+        case "go":
+            return (
+`package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Hello World!")--
+}
+`
+)
         
         default:
             return ""
